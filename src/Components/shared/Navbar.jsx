@@ -83,7 +83,7 @@ const Navbar = () => {
                         <Link href="/login" className="btn btn-ghost">
                             Login
                         </Link>
-                        <button className="btn btn-primary">Register</button>
+                        <Link href="/register" className="btn btn-primary">Register</Link>
                     </div>
                 )}
             </div>

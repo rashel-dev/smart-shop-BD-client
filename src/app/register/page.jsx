@@ -12,10 +12,7 @@ const RegisterPage = () => {
                 {/* Left Side */}
                 <div className="relative hidden md:flex flex-col justify-center items-center bg-primary text-primary-content p-10 text-center">
 
-                    <div className="relative z-10 bg-black/30 p-6 rounded-xl backdrop-blur-sm">
-                        <h3 className="text-3xl font-bold mb-2">Join Us Today</h3>
-                        <p className="text-lg">Create an account to start your journey with Smart Shop.</p>
-                    </div>
+                    <Image src="/loginPageBanner.jpg" alt="Login Page Banner" fill className="object-cover" />
                 </div>
 
                 {/* Right Side - Register Form */}
