@@ -1,15 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { FaBoxOpen, FaTag, FaImage, FaAlignLeft, FaDollarSign, FaLayerGroup, FaStar } from "react-icons/fa";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaBoxOpen, FaLayerGroup, FaDollarSign, FaTag, FaStar, FaImage, FaAlignLeft } from "react-icons/fa";
+import { useAuth } from "@/providers/AuthProvider";
 
 const AddProductPage = () => {
     const router = useRouter();
+    const { user, loading: authLoading } = useAuth();
     const [loading, setLoading] = useState(false);
-
     const [formData, setFormData] = useState({
         title: "",
         category: "",
@@ -23,12 +24,19 @@ const AddProductPage = () => {
         rating: "",
     });
 
+    // Redirect if not authenticated
+    useEffect(() => {
+        if (!authLoading && !user) {
+            router.push("/login");
+        }
+    }, [user, authLoading, router]);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
+        setFormData((prevData) => ({
+            ...prevData,
             [name]: value,
-        });
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -36,22 +44,17 @@ const AddProductPage = () => {
         setLoading(true);
 
         try {
-            // Prepare product data
+            // Prepare product data with user email
             const productData = {
-                title: formData.title,
-                category: formData.category.toLowerCase(),
-                brand: formData.brand,
+                ...formData,
                 price: parseFloat(formData.price),
                 discountedPrice: formData.discountedPrice ? parseFloat(formData.discountedPrice) : null,
                 currentStock: parseInt(formData.currentStock),
-                imageURL: formData.imageURL,
-                shortDescription: formData.shortDescription,
-                longDescription: formData.longDescription,
-                rating: formData.rating ? parseFloat(formData.rating) : 0,
+                rating: formData.rating ? parseFloat(formData.rating) : null,
+                userEmail: user.email,
                 createdAt: new Date().toISOString(),
             };
 
-            // Send to backend
             const response = await axios.post("http://localhost:5000/products", productData);
 
             if (response.data.insertedId) {
@@ -79,9 +82,9 @@ const AddProductPage = () => {
                     rating: "",
                 });
 
-                // Redirect to shop page after 2 seconds
+                // Redirect to manage products page after 2 seconds
                 setTimeout(() => {
-                    router.push("/shop");
+                    router.push("/manage-products");
                 }, 2000);
             }
         } catch (error) {
@@ -98,6 +101,18 @@ const AddProductPage = () => {
             setLoading(false);
         }
     };
+
+    if (authLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <span className="loading loading-spinner loading-lg"></span>
+            </div>
+        );
+    }
+
+    if (!user) {
+        return null;
+    }
 
     return (
         <div className="min-h-screen bg-base-100 py-12 px-4 sm:px-6 lg:px-8">
