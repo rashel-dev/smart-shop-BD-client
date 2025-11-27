@@ -8,10 +8,12 @@ const ShopPage = () => {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
 
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
     const fetchProducts = async (searchTerm = "") => {
         setLoading(true);
         try {
-            const res = await axios.get("http://localhost:5000/products", {
+            const res = await axios.get(`${apiBaseUrl}/products`, {
                 params: searchTerm ? { search: searchTerm } : {},
             });
             setProducts(res.data);

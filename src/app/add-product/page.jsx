@@ -24,6 +24,8 @@ const AddProductPage = () => {
         rating: "",
     });
 
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
     // Redirect if not authenticated
     useEffect(() => {
         if (!authLoading && !user) {
@@ -55,7 +57,7 @@ const AddProductPage = () => {
                 createdAt: new Date().toISOString(),
             };
 
-            const response = await axios.post("http://localhost:5000/products", productData);
+            const response = await axios.post(`${apiBaseUrl}/products`, productData);
 
             if (response.data.insertedId) {
                 // Show success toast

@@ -6,9 +6,10 @@ import ProductCard from "../shared/ProductCard";
 
 // Fetch data directly in the server component
 async function getProducts() {
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
     try {
-        // Assuming the server is running locally on port 5000
-        const res = await axios.get("http://localhost:5000/products");
+        const res = await axios.get(`${apiBaseUrl}/products`);
         return res.data;
     } catch (error) {
         console.error("Error fetching products:", error);

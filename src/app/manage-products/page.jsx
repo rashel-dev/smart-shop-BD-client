@@ -14,6 +14,8 @@ const ManageProductsPage = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
     // Protect route - redirect to login if not authenticated
     useEffect(() => {
         if (!authLoading && !user) {
@@ -32,7 +34,7 @@ const ManageProductsPage = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/products/user/${user.email}`);
+            const response = await axios.get(`${apiBaseUrl}/products/user/${user.email}`);
             setProducts(response.data);
         } catch (error) {
             console.error("Error fetching products:", error);
@@ -57,7 +59,7 @@ const ManageProductsPage = () => {
 
         if (result.isConfirmed) {
             try {
-                await axios.delete(`http://localhost:5000/products/${productId}`);
+                await axios.delete(`${apiBaseUrl}/products/${productId}`);
 
                 // Remove from state
                 setProducts(products.filter((product) => product._id !== productId));
