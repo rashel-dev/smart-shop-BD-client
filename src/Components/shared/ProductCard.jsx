@@ -21,7 +21,7 @@ const ProductCard = ({ product, priority = false }) => {
                     )}
                 </figure>
                 <div className="card-body">
-                    <h3 className="card-title text-xl font-bold">{product.title}</h3>
+                    <h3 className="card-title text-xl font-bold line-clamp-2">{product.title}</h3>
                     <p className="text-base-content/70 line-clamp-2">{product.shortDescription || "No description available."}</p>
                     <div className="flex items-center justify-between mt-4">
                         <span className="text-2xl font-bold text-primary">${product.price}</span>
