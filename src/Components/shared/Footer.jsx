@@ -34,19 +34,19 @@ const Footer = () => {
                     {/* Shop Section */}
                     <nav className="flex flex-col gap-2">
                         <h6 className="footer-title text-primary opacity-100 mb-2">Shop Categories</h6>
-                        <Link href="/shop/electronics" className="link link-hover hover:text-primary transition-colors">
+                        <Link href="/shop?search=electronics" className="link link-hover hover:text-primary transition-colors">
                             Electronics
                         </Link>
-                        <Link href="/shop/fashion" className="link link-hover hover:text-primary transition-colors">
+                        <Link href="/shop?search=fashion" className="link link-hover hover:text-primary transition-colors">
                             Fashion & Apparel
                         </Link>
-                        <Link href="/shop/home-living" className="link link-hover hover:text-primary transition-colors">
+                        <Link href="/shop?search=home" className="link link-hover hover:text-primary transition-colors">
                             Home & Living
                         </Link>
-                        <Link href="/shop/accessories" className="link link-hover hover:text-primary transition-colors">
+                        <Link href="/shop?search=accessories" className="link link-hover hover:text-primary transition-colors">
                             Gadgets & Accessories
                         </Link>
-                        <Link href="/shop/deals" className="link link-hover hover:text-primary transition-colors font-semibold text-secondary">
+                        <Link href="/shop" className="link link-hover hover:text-primary transition-colors font-semibold text-secondary">
                             Hot Deals
                         </Link>
                     </nav>
@@ -57,16 +57,16 @@ const Footer = () => {
                         <Link href="/contact" className="link link-hover hover:text-primary transition-colors">
                             Contact Us
                         </Link>
-                        <Link href="/faq" className="link link-hover hover:text-primary transition-colors">
+                        <Link href="#" className="link link-hover hover:text-primary transition-colors">
                             FAQs
                         </Link>
-                        <Link href="/shipping" className="link link-hover hover:text-primary transition-colors">
+                        <Link href="#" className="link link-hover hover:text-primary transition-colors">
                             Shipping & Delivery
                         </Link>
-                        <Link href="/returns" className="link link-hover hover:text-primary transition-colors">
+                        <Link href="#" className="link link-hover hover:text-primary transition-colors">
                             Returns & Exchanges
                         </Link>
-                        <Link href="/track-order" className="link link-hover hover:text-primary transition-colors">
+                        <Link href="#" className="link link-hover hover:text-primary transition-colors">
                             Track Your Order
                         </Link>
                     </nav>
