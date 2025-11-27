@@ -1,11 +1,19 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
+import { useAuth } from "@/providers/AuthProvider";
 
 const Navbar = () => {
-    // Mock login state - change to true to test logged-in view
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { user, logoutUser, loading } = useAuth();
+
+    const handleLogout = async () => {
+        try {
+            await logoutUser();
+        } catch (error) {
+            console.error("Logout error:", error);
+        }
+    };
 
     const navOptions = (
         <>
@@ -55,18 +63,19 @@ const Navbar = () => {
 
             {/* login and register button */}
             <div className="navbar-end">
-                {isLoggedIn ? (
+                {loading ? (
+                    <div className="skeleton h-10 w-24"></div>
+                ) : user ? (
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
-                                <img alt="User Avatar" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                <img alt={user.displayName || "User Avatar"} src={user.photoURL || "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"} />
                             </div>
                         </div>
 
-                        {/* user menu options for mobile */}
-
+                        {/* user menu options */}
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow bg-base-100 rounded-box w-52">
-                            <li className="menu-title">User Name</li>
+                            <li className="menu-title">{user.displayName || user.email}</li>
                             <li>
                                 <Link href="/add-product">Add Product</Link>
                             </li>
@@ -74,7 +83,7 @@ const Navbar = () => {
                                 <Link href="/manage-products">Manage Products</Link>
                             </li>
                             <li>
-                                <button onClick={() => setIsLoggedIn(false)}>Logout</button>
+                                <button onClick={handleLogout}>Logout</button>
                             </li>
                         </ul>
                     </div>
@@ -83,7 +92,9 @@ const Navbar = () => {
                         <Link href="/login" className="btn btn-ghost">
                             Login
                         </Link>
-                        <Link href="/register" className="btn btn-primary">Register</Link>
+                        <Link href="/register" className="btn btn-primary">
+                            Register
+                        </Link>
                     </div>
                 )}
             </div>

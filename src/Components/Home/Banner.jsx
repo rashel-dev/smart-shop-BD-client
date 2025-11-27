@@ -1,13 +1,11 @@
 "use client";
-import React from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/navigation";
 
 // Import banner images
 import banner1 from "../../assets/1c6f4ad6-3a03-4cb2-bb2a-eaaac2a27504_BD-1976-688.jpg_2200x2200q80.jpg_.avif";
@@ -31,7 +29,7 @@ const Banner = () => {
 
     return (
         <div className="container mx-auto px-4 my-8">
-            <div className="rounded-3xl overflow-hidden shadow-2xl">
+            <div className="rounded-3xl overflow-hidden shadow-2xl relative group">
                 <Swiper
                     spaceBetween={30}
                     centeredSlides={true}
@@ -44,20 +42,22 @@ const Banner = () => {
                         dynamicBullets: true,
                     }}
                     loop={true}
-                    navigation={true}
-                    modules={[Autoplay, Pagination, Navigation]}
+                    modules={[Autoplay, Pagination]}
                     className="mySwiper"
                 >
                     {slides.map((slide) => (
                         <SwiperSlide key={slide.id}>
-                            <Image
-                                src={slide.image}
-                                alt={`Banner ${slide.id}`}
-                                className="w-full h-auto"
-                                priority={slide.id === 1}
-                                quality={100}
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-                            />
+                            <div className="relative w-full h-[200px] sm:h-[300px] md:h-[400px] lg:h-[500px]">
+                                <Image
+                                    src={slide.image}
+                                    alt={`Banner ${slide.id}`}
+                                    fill
+                                    className="object-cover"
+                                    priority={slide.id === 1}
+                                    quality={100}
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+                                />
+                            </div>
                         </SwiperSlide>
                     ))}
                 </Swiper>
