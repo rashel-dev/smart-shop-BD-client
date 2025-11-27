@@ -1,29 +1,41 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import axios from "axios";
 import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart, FaArrowLeft } from "react-icons/fa";
 
-async function getProduct(id) {
-    try {
-        const res = await fetch(`http://localhost:5000/products/${id}`, {
-            cache: "no-store",
-        });
+const ProductDetailsPage = () => {
+    const { id } = useParams();
+    const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-        if (!res.ok) {
-            return null;
-        }
+    useEffect(() => {
+        const fetchProduct = async () => {
+            if (!id) return;
+            try {
+                const res = await axios.get(`${apiBaseUrl}/products/${id}`);
+                setProduct(res.data);
+            } catch (error) {
+                console.error("Error fetching product:", error);
+                setProduct(null);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-        return await res.json();
-    } catch (error) {
-        console.error("Error fetching product:", error);
-        return null;
+        fetchProduct();
+    }, [id, apiBaseUrl]);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <span className="loading loading-spinner loading-lg"></span>
+            </div>
+        );
     }
-}
-
-const ProductDetailsPage = async ({ params }) => {
-    // Await params for Next.js 15+ compatibility
-    const { id } = await params;
-    const product = await getProduct(id);
 
     if (!product) {
         return (
