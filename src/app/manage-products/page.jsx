@@ -14,6 +14,13 @@ const ManageProductsPage = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    // Protect route - redirect to login if not authenticated
+    useEffect(() => {
+        if (!authLoading && !user) {
+            router.push("/login");
+        }
+    }, [user, authLoading, router]);
+
     // Fetch user's products
     useEffect(() => {
         if (user?.email) {
@@ -78,6 +85,18 @@ const ManageProductsPage = () => {
     const handleViewDetails = (productId) => {
         router.push(`/products/${productId}`);
     };
+
+    if (authLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <span className="loading loading-spinner loading-lg"></span>
+            </div>
+        );
+    }
+
+    if (!user) {
+        return null;
+    }
 
     if (loading) {
         return (
